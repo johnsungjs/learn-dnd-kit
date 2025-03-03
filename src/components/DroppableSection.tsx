@@ -1,6 +1,7 @@
 import { ChangeEvent, LegacyRef } from "react";
 import Droppable from "./Droppable";
 import { HtmlValues } from "../utils/interfaces";
+import DraggableWithToggle from "./DraggableWithToggle";
 
 interface DroppableSection {
   droppableRef: LegacyRef<HTMLDivElement> | undefined;
@@ -21,34 +22,35 @@ export default function DroppableSection({
 }: DroppableSection) {
   return (
     <>
-      <div className="w-full h-full max-h-full py-10 border-2 border-purple-500 overflow-y-auto">
+      <div className="w-full h-full max-h-full py-10 border-l-2 border-purple-500 overflow-y-auto">
         <div
           className="max-w-[450px] mx-auto border-2 border-black"
           ref={droppableRef}
         >
           {htmlValues2.map((htmlValue: HtmlValues, index: number) => (
-            <div
-              key={index}
-              // className="max-w-[450px] py-4 mx-auto border-2 border-yellow-600 border-dashed group relative"
-              className="w-full group relative"
-            >
+            <div key={index} className="w-full group relative">
               <Droppable id={index.toString()}>
-                <input
-                  disabled={
-                    htmlValues2[index].value === "Drop Your Element Here"
-                  }
-                  style={{ background: "transparent", ...htmlValue.style }}
-                  className="border-2 disabled:opacity-70"
-                  value={htmlValues2[index].value}
-                  onClick={() => setActiveSection(index)}
-                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
-                    handleChangeInput(e, index)
-                  }
-                />
+                <DraggableWithToggle
+                  id={index.toString()}
+                  value={htmlValue}
+                >
+                  <input
+                    disabled={
+                      htmlValues2[index].value === "Drop Your Element Here"
+                    }
+                    style={{ background: "transparent", ...htmlValue.style }}
+                    className="border-2 disabled:opacity-70"
+                    value={htmlValues2[index].value}
+                    onClick={() => setActiveSection(index)}
+                    onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                      handleChangeInput(e, index)
+                    }
+                  />
+                </DraggableWithToggle>
               </Droppable>
               {htmlValues2.length > 1 && (
                 <button
-                  className="absolute bg-red-500 w-4 h-4 top-1 right-1 hidden group-hover:block"
+                  className="absolute bg-red-500 w-4 h-4 top-1 right-1 hidden group-hover:block rounded-full"
                   onClick={() => {
                     handleDeleteSection(index);
                   }}
@@ -60,12 +62,12 @@ export default function DroppableSection({
 
         <div className="pt-4 text-center">
           <button
-            className="px-2 py-1 text-sm text-white bg-blue-500 rounded-xl"
+            className="px-6 py-2 text-sm text-white bg-blue-500 rounded-lg"
             onClick={() => {
               handleAddSection();
             }}
           >
-            + tambah element
+            + Tambah Web Component
           </button>
         </div>
       </div>
