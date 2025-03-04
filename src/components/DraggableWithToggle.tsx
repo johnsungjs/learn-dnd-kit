@@ -1,6 +1,7 @@
 import { useDraggable } from "@dnd-kit/core";
 import { ReactNode } from "react";
 import { HtmlValues } from "../utils/interfaces";
+import { blankCanvasMessage } from "../utils/util";
 
 interface DraggableProps {
   children: ReactNode;
@@ -28,7 +29,7 @@ export default function DraggableWithToggle({
 
   return (
     <div className="group relative" style={style} {...attributes} role="div">
-      {value.value !== "Drop Your Element Here" && (
+      {value.value !== blankCanvasMessage && (
         <button
           className="absolute bg-green-500 w-5 h-5 -top-1 -left-2 group-hover:block rounded-full"
           ref={setNodeRef}

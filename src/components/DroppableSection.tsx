@@ -2,6 +2,7 @@ import { ChangeEvent, LegacyRef } from "react";
 import Droppable from "./Droppable";
 import { HtmlValues } from "../utils/interfaces";
 import DraggableWithToggle from "./DraggableWithToggle";
+import { blankCanvasMessage } from "../utils/util";
 
 interface DroppableSection {
   droppableRef: LegacyRef<HTMLDivElement> | undefined;
@@ -30,14 +31,9 @@ export default function DroppableSection({
           {htmlValues2.map((htmlValue: HtmlValues, index: number) => (
             <div key={index} className="w-full group relative">
               <Droppable id={index.toString()}>
-                <DraggableWithToggle
-                  id={index.toString()}
-                  value={htmlValue}
-                >
+                <DraggableWithToggle id={index.toString()} value={htmlValue}>
                   <input
-                    disabled={
-                      htmlValues2[index].value === "Drop Your Element Here"
-                    }
+                    disabled={htmlValues2[index].value === blankCanvasMessage}
                     style={{ background: "transparent", ...htmlValue.style }}
                     className="border-2 disabled:opacity-70"
                     value={htmlValues2[index].value}
@@ -60,7 +56,7 @@ export default function DroppableSection({
           ))}
         </div>
 
-        <div className="pt-4 text-center">
+        {/* <div className="pt-4 text-center">
           <button
             className="px-6 py-2 text-sm text-white bg-blue-500 rounded-lg"
             onClick={() => {
@@ -69,7 +65,7 @@ export default function DroppableSection({
           >
             + Tambah Web Component
           </button>
-        </div>
+        </div> */}
       </div>
     </>
   );

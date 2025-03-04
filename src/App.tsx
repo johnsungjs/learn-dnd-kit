@@ -11,12 +11,17 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { HtmlValues } from "./utils/interfaces";
 import DroppableSection from "./components/DroppableSection";
 import DraggableSection from "./components/DraggableSection";
-import { isNumeric, reorderList, stringToInt } from "./utils/util";
+import {
+  blankCanvasMessage,
+  isNumeric,
+  reorderList,
+  stringToInt,
+} from "./utils/util";
 
 const initialHtmlValue: HtmlValues = {
   openingTag: "<p>",
   closingTag: "</p>",
-  value: "Drop Your Element Here",
+  value: blankCanvasMessage,
   style: {
     width: "100%",
     fontSize: 12,
@@ -53,24 +58,25 @@ export default function App() {
 
     //FOR SCENARIO CANVAS TO CANVAS
     if (isNumeric(event.active.id)) {
-      console.log("TODOOOO HANDLER BARU");
       const existing: HtmlValues[] = Array.from(htmlValues2);
       const sourceIdx = stringToInt(event.active.id as string);
       const destinationIdx = collisionsIdx;
       const newArr = reorderList(existing, sourceIdx!, destinationIdx);
       setHtmlValues2(newArr);
-
-      return;
-      //FOR SCENARIO WEB COMPONENT TO CANVAS
-    } else {
-      const existing: HtmlValues[] = Array.from(htmlValues2);
-      const index: number = collisionsIdx!;
-      const newVal: HtmlValues = event.active.data.current as HtmlValues;
-      existing[index] = newVal;
-      setHtmlValues2(existing);
-      setActiveSection(index);
       return;
     }
+
+    //FOR SCENARIO WEB COMPONENT TO CANVAS
+    const existing: HtmlValues[] = Array.from(htmlValues2);
+    const index: number = collisionsIdx!;
+    const newVal: HtmlValues = event.active.data.current as HtmlValues;
+    existing[index] = newVal;
+    existing[existing.length - 1].value !== blankCanvasMessage &&
+      existing.push(initialHtmlValue);
+
+    setHtmlValues2(existing);
+    setActiveSection(index);
+    return;
   };
 
   const handleAddSection = () => {

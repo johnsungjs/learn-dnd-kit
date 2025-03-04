@@ -2,7 +2,6 @@ import { Fragment } from "react";
 
 import { DataDraggable } from "../utils/interfaces";
 import Draggable from "./Draggable";
-import DraggableWithToggle from "./DraggableWithToggle";
 
 const dataDraggable: DataDraggable[] = [
   {
@@ -62,46 +61,6 @@ const dataDraggable: DataDraggable[] = [
         color: "white",
         background: "blue",
         borderWidth: 0,
-      },
-    },
-  },
-  {
-    title: "hoho",
-    content: {
-      openingTag: "<h2>",
-      closingTag: "</h2>",
-      value: "Your Subtitle",
-      style: {
-        width: "100%",
-        borderWidth: 5,
-        borderStyle: "solid",
-        borderColor: "yellow",
-        margin: "0 auto",
-        display: "block",
-        fontSize: 16,
-        textAlign: "center",
-        color: "black",
-        background: "transparent",
-      },
-    },
-  },
-  {
-    title: "haha",
-    content: {
-      openingTag: "<h2>",
-      closingTag: "</h2>",
-      value: "Your Subtitle",
-      style: {
-        width: "100%",
-        borderWidth: 5,
-        borderStyle: "solid",
-        borderColor: "yellow",
-        margin: "0 auto",
-        display: "block",
-        fontSize: 16,
-        textAlign: "center",
-        color: "black",
-        background: "transparent",
       },
     },
   },

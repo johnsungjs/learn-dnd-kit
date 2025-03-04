@@ -1,3 +1,5 @@
+export const blankCanvasMessage: string = "Tambahkan Komponen Disini";
+
 export function isNumeric(value: any): boolean {
   if (typeof value !== "string") {
     return false;
