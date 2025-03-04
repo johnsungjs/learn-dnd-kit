@@ -11,6 +11,7 @@ import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { HtmlValues } from "./utils/interfaces";
 import DroppableSection from "./components/DroppableSection";
 import DraggableSection from "./components/DraggableSection";
+import { isNumeric, reorderList, stringToInt } from "./utils/util";
 
 const initialHtmlValue: HtmlValues = {
   openingTag: "<p>",
@@ -34,20 +35,41 @@ export default function App() {
 
   const handleDragEnd = (event: DragEndEvent) => {
     console.log("event", event);
-    if (
-      event.collisions &&
-      event.collisions.length > 0 &&
-      event.collisions[0] &&
-      event.collisions[0].id
-    ) {
-      const existing2: HtmlValues[] = Array.from(htmlValues2);
-      const index: number = event.collisions[0].id as number;
-      const newVal: HtmlValues = event.active.data.current as HtmlValues;
-      existing2[index] = newVal;
-      setHtmlValues2(existing2);
-      setActiveSection(index);
+    let collisionsIdx: number | null = null;
+
+    //CHECKING COMPONENT DROPPED INSIDE DROPPABLE ZONE
+    if (event.over && event.over && event.over.id) {
+      collisionsIdx = stringToInt(event.over.id as string);
+    }
+
+    //HANDLE INVALID COLLITION IDX
+    if (collisionsIdx === null) {
+      console.log(
+        "outside droppable with value collition Idx of ",
+        collisionsIdx
+      );
+      return;
+    }
+
+    //FOR SCENARIO CANVAS TO CANVAS
+    if (isNumeric(event.active.id)) {
+      console.log("TODOOOO HANDLER BARU");
+      const existing: HtmlValues[] = Array.from(htmlValues2);
+      const sourceIdx = stringToInt(event.active.id as string);
+      const destinationIdx = collisionsIdx;
+      const newArr = reorderList(existing, sourceIdx!, destinationIdx);
+      setHtmlValues2(newArr);
+
+      return;
+      //FOR SCENARIO WEB COMPONENT TO CANVAS
     } else {
-      console.log("drag in the wrong zone");
+      const existing: HtmlValues[] = Array.from(htmlValues2);
+      const index: number = collisionsIdx!;
+      const newVal: HtmlValues = event.active.data.current as HtmlValues;
+      existing[index] = newVal;
+      setHtmlValues2(existing);
+      setActiveSection(index);
+      return;
     }
   };
 
