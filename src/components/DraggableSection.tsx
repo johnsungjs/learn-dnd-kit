@@ -6,7 +6,7 @@ import DraggableWithToggle from "./DraggableWithToggle";
 
 const dataDraggable: DataDraggable[] = [
   {
-    title: "title",
+    title: "Jumbotron",
     content: {
       openingTag: "<h1>",
       closingTag: "</h1>",
@@ -27,7 +27,7 @@ const dataDraggable: DataDraggable[] = [
     },
   },
   {
-    title: "subtitle",
+    title: "Section",
     content: {
       openingTag: "<h2>",
       closingTag: "</h2>",
@@ -115,12 +115,32 @@ export default function DraggableSection() {
     dataElement.length > 0 &&
     dataElement.map((e) => (
       <Fragment key={e.title}>
-          <Draggable id={e.title} value={e.content}>
-            <div className="border-2 w-full border-pink-500 py-2 px-12 rounded-xl text-center">
-              {e.title}
-            </div>
-          </Draggable>
+        <Draggable id={e.title} value={e.content}>
+          <div className="border-2 w-full border-teal-400 py-2 px-12 rounded-xl text-center">
+            {e.title}
+          </div>
+        </Draggable>
       </Fragment>
     ));
-  return <div className="px-8 pt-4 flex flex-col gap-8">{draggableMarkup}</div>;
+
+  const draggableCloneShadow =
+    dataElement &&
+    dataElement.length > 0 &&
+    dataElement.map((e) => (
+      <Fragment key={e.title}>
+        <div className="border-2 w-full border-slate-300 py-2 px-12 rounded-xl text-center">
+          {e.title}
+        </div>
+      </Fragment>
+    ));
+  return (
+    <>
+      <div className="relative">
+        <div className="px-8 pt-4 flex flex-col gap-8 absolute -z-10 opacity-50">
+          {draggableCloneShadow}
+        </div>
+        <div className="px-8 pt-4 flex flex-col gap-8">{draggableMarkup}</div>
+      </div>
+    </>
+  );
 }
