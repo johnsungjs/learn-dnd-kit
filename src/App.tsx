@@ -1,12 +1,4 @@
-import {
-  ChangeEvent,
-  CSSProperties,
-  Fragment,
-  LegacyRef,
-  useRef,
-  useState,
-} from "react";
-import Draggable from "./components/Draggable";
+import { ChangeEvent, LegacyRef, useRef, useState } from "react";
 import { DndContext, DragEndEvent } from "@dnd-kit/core";
 import { HtmlValues } from "./utils/interfaces";
 import DroppableSection from "./components/DroppableSection";
@@ -17,6 +9,7 @@ import {
   reorderList,
   stringToInt,
 } from "./utils/util";
+import WebComponentSettings from "./components/WebComponentSettings";
 
 const initialHtmlValue: HtmlValues = {
   openingTag: "<p>",
@@ -79,13 +72,6 @@ export default function App() {
     return;
   };
 
-  const handleAddSection = () => {
-    const existing2 = Array.from(htmlValues2);
-    existing2.push(initialHtmlValue);
-    // console.log("existing data", existing2);
-    setHtmlValues2(existing2);
-  };
-
   const handleDeleteSection = (index: number) => {
     if (activeSection && activeSection > htmlValues2.length - 2) {
       setActiveSection(null);
@@ -93,7 +79,6 @@ export default function App() {
 
     const existing2 = Array.from(htmlValues2);
     existing2.splice(index, 1);
-    // console.log(existing2);
     setHtmlValues2(existing2);
   };
 
@@ -111,20 +96,26 @@ export default function App() {
   };
 
   return (
-    <div className="flex flex-col h-screen w-screen overflow-hidden">
+    <div
+      className="flex flex-col h-screen w-screen overflow-hidden"
+      onClick={() => setActiveSection(null)}
+    >
       <div className="font-bold text-center pt-4 pb-2 text-4xl">
         Okeo Funnel
       </div>
       <DndContext onDragEnd={handleDragEnd}>
         <div className="flex w-full h-full border-t-2 border-slate-600">
-          <DraggableSection />
+          {activeSection === null ? (
+            <DraggableSection />
+          ) : (
+            <WebComponentSettings />
+          )}
           <DroppableSection
             droppableRef={droppableRef}
             htmlValues2={htmlValues2}
             setActiveSection={setActiveSection}
             handleChangeInput={handleChangeInput}
             handleDeleteSection={handleDeleteSection}
-            handleAddSection={handleAddSection}
           />
         </div>
       </DndContext>

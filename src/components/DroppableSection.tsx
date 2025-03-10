@@ -9,7 +9,6 @@ interface DroppableSection {
   htmlValues2: HtmlValues[];
   handleChangeInput: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
   handleDeleteSection: (index: number) => void;
-  handleAddSection: () => void;
   setActiveSection: (input: number) => void;
 }
 
@@ -18,7 +17,6 @@ export default function DroppableSection({
   htmlValues2,
   handleChangeInput,
   handleDeleteSection,
-  handleAddSection,
   setActiveSection,
 }: DroppableSection) {
   return (
@@ -35,9 +33,12 @@ export default function DroppableSection({
                   <input
                     disabled={htmlValues2[index].value === blankCanvasMessage}
                     style={{ background: "transparent", ...htmlValue.style }}
-                    className="border-2 disabled:opacity-70"
+                    // className="border-2 disabled:opacity-70"
                     value={htmlValues2[index].value}
-                    onClick={() => setActiveSection(index)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActiveSection(index);
+                    }}
                     onChange={(e: ChangeEvent<HTMLInputElement>) =>
                       handleChangeInput(e, index)
                     }
